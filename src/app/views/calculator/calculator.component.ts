@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component ,OnInit} from '@angular/core';
 import { Options, LabelType } from '@angular-slider/ngx-slider';
 
 @Component({
@@ -6,144 +6,99 @@ import { Options, LabelType } from '@angular-slider/ngx-slider';
   templateUrl: './calculator.component.html',
   styleUrls: ['./calculator.component.css']
 })
-export class CalculatorComponent {
+export class CalculatorComponent implements OnInit{
 
-
+  existingEMIField:boolean=false;
+  config={
+    search:true,
+    displayKey:'val'
+  }
+  options = [
+    new Tenure(0, "3 months"),
+    new Tenure(1, "6 months"),
+    new Tenure(2, "9 months"),
+    new Tenure(3, "12 months")
+  ];
   filters: any;
   pemi = {
-    value: "25"
+    value: "150000"
   }
   remi = {
-    value: "8.5"
+    value: "50000"
   }
-  temi = {
-    value: "20"
-  }
-  memi = {
-    value: "240"
-  }
-
   query = {
     amount: "",
-    interest: "",
-    tenureYr: "",
-    tenureMo: ""
+    expense: "",
   }
 
-  result = {
-    emi: "",
-    interest: "",
-    total: ""
-  }
   yrToggel: boolean;
   poptions: Options = {
-    floor: 1,
-    ceil: 200,
+    floor: 100000,
+    ceil: 300000,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return value + '<b>L</b>';
+          return value + '<b></b>';
         case LabelType.High:
-          return value + '<b>L</b>';
+          return value + '<b></b>';
         default:
-          return value + '<b>L</b>';
+          return value + '<b></b>';
       }
     }
   };
   roptions: Options = {
-    floor: 5,
-    ceil: 20,
+    floor: 5000,
+    ceil: 100000,
     translate: (value: number, label: LabelType): string => {
       switch (label) {
         case LabelType.Low:
-          return value + '<b>%</b>';
+          return value + '<b></b>';
         case LabelType.High:
-          return value + '<b>%</b>';
+          return value + '<b></b>';
         default:
-          return value + '<b>%</b>';
+          return value + '<b></b>';
       }
     }
   };
-  toptions: Options = {
-    floor: 1,
-    ceil: 30,
-    translate: (value: number, label: LabelType): string => {
-      switch (label) {
-        case LabelType.Low:
-          return value + '<b>Yr</b>';
-        case LabelType.High:
-          return value + '<b>Yr</b>';
-        default:
-          return value + '<b>Yr</b>';
-      }
-    }
-  };
-  moptions: Options = {
-    floor: 1,
-    ceil: 360,
-    translate: (value: number, label: LabelType): string => {
-      switch (label) {
-        case LabelType.Low:
-          return value + '<b>Mo</b>';
-        case LabelType.High:
-          return value + '<b>Mo</b>';
-        default:
-          return value + '<b>Mo</b>';
-      }
-    }
-  };
+ 
+
   constructor() {
     this.yrToggel = true;
   }
 
-  ngAfterViewInit() {
+  ngOnInit(){
     this.update();
   }
 
-  tbupdate(id) {
-    if (id == 0) {
-      this.pemi.value = (Number(this.query.amount) / 100000).toString();
-    }
-    else if (id == 1) {
-      this.remi.value = this.query.interest;
-    }
-    else if (id == 2) {
-      this.temi.value = this.query.tenureYr;
-    }
-    else if (id == 3) {
-      this.memi.value = this.query.tenureMo;
-    }
-    this.update();
-  }
 
   update() {
+    var amount = Number(this.pemi.value);
+    var monthlyExpense = Number(this.remi.value);
 
-    var loanAmount = Number(this.pemi.value) * 100000;
-    var numberOfMonths = (this.yrToggel) ? (Number(this.temi.value) * 12) : Number(this.memi.value);
-    var rateOfInterest = Number(this.remi.value);
-    var monthlyInterestRatio = (rateOfInterest / 100) / 12;
+    this.query.amount = amount.toString();
+    this.query.expense = monthlyExpense.toString();
 
-    this.query.amount = loanAmount.toString();
-    this.query.interest = rateOfInterest.toString();
-    if (this.yrToggel) {
-      this.query.tenureYr = this.temi.value.toString();
-    }
-    else {
-      this.query.tenureMo = this.memi.value.toString();
-    }
-
-    var top = Math.pow((1 + monthlyInterestRatio), numberOfMonths);
-    var bottom = top - 1;
-    var sp = top / bottom;
-    var emi = ((loanAmount * monthlyInterestRatio) * sp);
-    var full = numberOfMonths * emi;
-    var interest = full - loanAmount;
-    var int_pge = (interest / full) * 100;
-
-    this.result.emi = emi.toFixed(0).toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    var loanAmount_str = loanAmount.toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    this.result.total = full.toFixed(0).toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    this.result.interest = interest.toFixed(0).toString().replace(/,/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
 
+  onChange(event){
+    if(event){
+    this.existingEMIField = true;
+  }else{
+    this.existingEMIField = false;
+  }
+  }
+
+  selectionChanged(){
+
+  }
+
+}
+export class Tenure {
+  public id: number;
+  public val: string;
+
+  constructor(id: number, val: string) {
+    this.id = id;
+    this.val = val;
+  }
 }

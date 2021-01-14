@@ -239,9 +239,7 @@ opacity: 1;
 .subtext{
     font-size: 11px;
 }
-.get-acc-btn{
-    cursor: pointer;
-}
+
 .card-img{
     margin: 20px;
 }
@@ -255,5 +253,8 @@ opacity: 1;
     margin: 15px;
 }
 a{
+    cursor: pointer;
+}
+.act-btn{
     cursor: pointer;
 }

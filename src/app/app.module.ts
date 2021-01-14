@@ -5,6 +5,10 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './views/home/home.component';
 import { CalculatorComponent } from './views/calculator/calculator.component';
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
+import { FormsModule } from '@angular/forms';
+import { UiSwitchModule } from 'ngx-toggle-switch';
+import { SelectDropDownModule } from 'ngx-select-dropdown'
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,8 +17,11 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
   ],
   imports: [
     BrowserModule,
+    FormsModule,ReactiveFormsModule,
     AppRoutingModule,
-    NgxSliderModule
+    NgxSliderModule,
+    UiSwitchModule,
+    SelectDropDownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

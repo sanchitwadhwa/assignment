@@ -1,0 +1,22 @@
+.card-header{
+    display: flex;
+    justify-content: center;
+}
+.existing-loan{
+    display: flex;
+    justify-content: space-around;
+}
+.card{
+    box-shadow: 0px 0px 30px #23213242;
+    /* border: 1px solid #FFFFFF; */
+    border-radius: 46px;
+    opacity: 1;
+}
+.container{
+    width: 400px;
+    margin-left:42%;
+    margin-top: 3%;
+}
+.well{
+    margin-left: 10%;
+}
